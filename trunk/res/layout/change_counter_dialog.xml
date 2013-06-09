@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/etChangeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" 
+        android:hint=""/>
+
+    
+
+    <EditText
+        android:id="@+id/etChangeDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" 
+        android:hint=""/>
+
+    <Button
+        android:id="@+id/buttonPlus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="+" />
+
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="false"
+        android:gravity="center_vertical|center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/buttonMoins"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="-" />
+
+</LinearLayout>
