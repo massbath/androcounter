@@ -41,7 +41,7 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 	
 	public static ChangeCounterDialog newInstance(Counter counter)
 	{
-			Log.d("[Counter ChangeCounterDialog newInstance]",counter.toString());
+			Log.d("Counter ChangeCounterDialog newInstance",counter.toString());
 			ChangeCounterDialog fragment = new ChangeCounterDialog();
 			Bundle args = new Bundle();
 			args.putString("TITLE", counter.getTitle());

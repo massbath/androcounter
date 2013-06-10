@@ -69,7 +69,7 @@ public class AddCounterDialog extends DialogFragment implements android.content.
 				    this.dismiss();
 				}
 				else {
-					    Log.d("[Counter AddCounterDialog onClick ]","Titre  ou description mal renseigné");
+					    Log.d("Counter AddCounterDialog onClick ","Titre  ou description mal renseigné");
 						Toast.makeText(getActivity(),R.string.not_all_inputs,Toast.LENGTH_SHORT ).show();
 						break;
 				}
