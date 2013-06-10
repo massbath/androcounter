@@ -80,16 +80,69 @@ public class CounterBDD {
 		
 	}
 	
+	//increment the counter and add a nex increment date in the table increment
+	public void countPlusCounter(Counter counter)
+	{
+		ContentValues values = new ContentValues();
+		values.put(COL_COUNT, counter.getCount());
+		Log.d("Counter CounterBDD countPlusCounter",counter.toString());
+	    bdd.update(TABLE_COUNTER, values, COL_ID+" = "+counter.getId(), null);
+	    /*
+	     ContentValues values = new ContentValues();
+	     values.put(COL_ID_COUNTER,counter.getId());
+	     values.put(COL_DATE,date);
+	     bdd.insert(TABLE_COUNT,null,values); 
+	     */
+	}
+	
+	//decrement the counter TODO remove the last increment date in the table increment
+	public void countMinusCounter(Counter counter)
+	{
+		ContentValues values = new ContentValues();
+		values.put(COL_COUNT, counter.getCount());
+		Log.d("Counter CounterBDD countPlusCounter",counter.toString());
+	    bdd.update(TABLE_COUNTER, values, COL_ID+" = "+counter.getId(), null);	
+	    /*
+	    
+	    supprimer le dernier count lié au counter
+	     */
+	  
+	}
+	
 	public int removeCounterWithId(int id)
 	{
 		return bdd.delete(TABLE_COUNTER, COL_ID +" = "+id, null);
 		
 	}
 	
+	// todo remove all the increment date in the table increment with id of this counter
+	public int removeCounter(Counter counter)
+	{
+		return bdd.delete(TABLE_COUNTER, COL_ID+" = "+counter.getId(), null);
+		
+	}
 	public Counter getCounterWithTitle(String title)
 	{
 		Cursor c = bdd.query(TABLE_COUNTER, new String[]{COL_ID,COL_TITLE,COL_DESCRIPTION,COL_COUNT}, COL_TITLE+" LIKE \""+title+"\"", null, null, null, null);
 		return cursorToCounter(c);
+	}
+	
+	public boolean isFreeTitle(long id,String title)
+	{
+		Cursor c = bdd.query(TABLE_COUNTER,new String[]{COL_ID},COL_TITLE+" LIKE \""+title+"\" AND "+COL_ID+" !="+id,null,null,null,null);
+		//if there is already a counter with this name in database
+		if(c.getCount()>=1)
+			return false;
+		else return true;
+	}
+	
+	public boolean isFreeTitle(String title)
+	{
+		Cursor c = bdd.query(TABLE_COUNTER,new String[]{COL_ID},COL_TITLE+" LIKE \""+title+"\"",null,null,null,null);
+		//if there is already a counter with this name in database
+		if(c.getCount()>=1)
+			return false;
+		else return true;
 	}
 	
 	
@@ -97,6 +150,7 @@ public class CounterBDD {
 	{
 		if(c.getCount() ==0)
 			return null;
+		
 		c.moveToFirst();
 		Counter counter = new Counter();
 		counter.setCount(c.getInt(NUM_COL_COUNT));
@@ -104,6 +158,7 @@ public class CounterBDD {
 		counter.setId(c.getLong(NUM_COL_ID));
 		counter.setTitle(c.getString(NUM_COL_TITLE));
 		c.close();
+		
 		return counter;
 		
 	}

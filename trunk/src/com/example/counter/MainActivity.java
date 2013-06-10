@@ -2,7 +2,6 @@ package com.example.counter;
 
 import java.util.ArrayList;
 
-import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -10,17 +9,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.counter.AddCounterDialog.AddCounterDialogOkListener;
-import com.example.counter.ChangeCounterDialog.ChangeCounterDialogOkListener;
-import com.example.counter.ChangeCounterDialog.ChangeCounterDialogOnchangeCountListener;
+import com.example.counter.ChangeCounterDialog.ChangeCounterDialogListenerInterface;
 
-public class MainActivity extends FragmentActivity implements ChangeCounterDialogOkListener,AddCounterDialogOkListener, OnItemClickListener,ChangeCounterDialogOnchangeCountListener{
+public class MainActivity extends FragmentActivity implements AddCounterDialogOkListener,ChangeCounterDialogListenerInterface, OnItemClickListener{
 	
 	private final static int MENU_ADD = 1;
 	
@@ -78,25 +75,7 @@ public class MainActivity extends FragmentActivity implements ChangeCounterDialo
 		
 	}
 	
-	//on réfinit la méthode de l'inteface AddCounterDialogOkListener de la dialogue
-	public void onFinishAddCounterDialog(String Title,String Description)
-	{
-		Counter newCounter = new Counter(Title,Description,0);
-		counterBDD.open();
-		long res = counterBDD.insertCounter(newCounter);
-		counterBDD.close();
-		if (res<0)
-			{
-				Toast.makeText(this, R.string.add_cancel_double, Toast.LENGTH_SHORT).show();
-				Log.d("[Counter MainActivity onFinishAddCounterDialog ]","Ajout à la base non fait titre déja utilisé");
-				return;
-			}
-		
-		
-		updateListViewCounter();
-		
-		
-	}
+	
 
 	public void updateListViewCounter()
 	{
@@ -124,8 +103,46 @@ public class MainActivity extends FragmentActivity implements ChangeCounterDialo
 		 updateListViewCounter();
 	}
 
+	
+//on réfinit la méthode de l'inteface AddCounterDialogOkListener de la dialogue
+	public void onFinishAddCounterDialog(String Title,String Description)
+	{
+		Counter newCounter = new Counter(Title,Description,0);
+		counterBDD.open();
+		long res = counterBDD.insertCounter(newCounter);
+		counterBDD.close();
+		if (res<0)
+			{
+				Toast.makeText(this, R.string.add_cancel_double, Toast.LENGTH_SHORT).show();
+				Log.d("[Counter MainActivity onFinishAddCounterDialog ]","Ajout à la base non fait titre déja utilisé");
+				return;
+			}
+		
+		
+		updateListViewCounter();
+		
+		
+	}
+	
+	
 	@Override
-	public void onChangeCountChangeCounterDialog(final Counter counter) {
+	public void onFinishChangeCounterDialog(Counter counter) {
+		// TODO Auto-generated method stub
+		updateListViewCounter();
+		
+	}
+
+	@Override
+	public boolean  onChangeCounterTitle(long id, String title) {
+		// TODO Auto-generated method stub
+		counterBDD.open();
+		boolean res = counterBDD.isFreeTitle(id, title);
+		counterBDD.close();
+		return res;
+	}
+
+	@Override
+	public void countPlus(final Counter counter) {
 		// TODO Auto-generated method stub
 		new Thread(new Runnable(){
 
@@ -133,19 +150,43 @@ public class MainActivity extends FragmentActivity implements ChangeCounterDialo
 			public void run() {
 				// TODO Auto-generated method stub
 				counterBDD.open();
-				counterBDD.updateCountofCounter(counter);
+				counterBDD.countPlusCounter(counter);
 				counterBDD.close();
 			}
 			
 		}).start();
-		
 	}
 
 	@Override
-	public void onFinishChangeCounterDialog(Counter counter) {
+	public void countMinus(final Counter counter) {
 		// TODO Auto-generated method stub
+		new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				counterBDD.open();
+				counterBDD.countMinusCounter(counter);
+				counterBDD.close();
+			}
+			
+		}).start();
+	}
+
+	@Override
+	public void removeCounter(final Counter counter) {
+		counterBDD.open();
+		counterBDD.removeCounter(counter);
+		counterBDD.close();
 		updateListViewCounter();
-		
+	}
+
+	@Override
+	public boolean isTitleFree(String title) {
+		counterBDD.open();
+		boolean res = counterBDD.isFreeTitle(title);
+		counterBDD.close();
+		return res;
 	}
 
 	
