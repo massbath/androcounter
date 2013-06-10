@@ -56,10 +56,10 @@ public class CounterBDD {
 		
 	}
 	
-	public int updateCounter(int id, Counter updateCounter)
+	public int updateCounter(long id, Counter updateCounter)
 	{
 		//we don't want have 2 counter with the same title in the DB
-		Cursor c = bdd.query(TABLE_COUNTER,new String[]{COL_ID},COL_TITLE+" LIKE \""+updateCounter.getTitle()+"\" AND COL_ID !="+id,null,null,null,null);
+		Cursor c = bdd.query(TABLE_COUNTER,new String[]{COL_ID},COL_TITLE+" LIKE \""+updateCounter.getTitle()+"\" AND "+COL_ID+" !="+id,null,null,null,null);
 		//if there is already a counter with this name in database
 		if(c.getCount()==1)
 			return -1;
@@ -67,9 +67,10 @@ public class CounterBDD {
 		ContentValues values = new ContentValues();
 		values.put(COL_TITLE, updateCounter.getTitle());
 		values.put(COL_DESCRIPTION, updateCounter.getDescription());
-		values.put(COL_COUNT, updateCounter.getCount());
+		//values.put(COL_COUNT, updateCounter.getCount());
 		return bdd.update(TABLE_COUNTER, values, COL_ID+" = "+id, null);
 	}
+	
 	public int updateCountofCounter(Counter counter)
 	{
 		ContentValues values = new ContentValues();
