@@ -128,7 +128,11 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 	@Override
 	public void onFinishChangeCounterDialog(Counter counter) {
 		// TODO Auto-generated method stub
+		counterBDD.open();
+		counterBDD.updateCounter(counter.getId(), counter);
+		counterBDD.close();
 		updateListViewCounter();
+		
 		
 	}
 
@@ -187,6 +191,12 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 		boolean res = counterBDD.isFreeTitle(title);
 		counterBDD.close();
 		return res;
+	}
+
+	@Override
+	public void onCancelChangeCounterDialog() {
+		// TODO Auto-generated method stub
+		updateListViewCounter();
 	}
 
 	

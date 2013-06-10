@@ -31,6 +31,7 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 	public interface ChangeCounterDialogListenerInterface{
 		void onFinishChangeCounterDialog(Counter counter);
 		boolean onChangeCounterTitle(long id,String title);
+		void onCancelChangeCounterDialog();
 		void countPlus(Counter counter);
 		void countMinus(Counter counter);
 		void removeCounter(Counter counter);
@@ -91,6 +92,22 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 			{
 				case DialogInterface.BUTTON_POSITIVE:
 						{
+							Bundle args = getArguments();
+							//if one of title or description is different
+							if(!title.getText().toString().equals( args.getString("TITLE")) || !description.getText().toString().equals( args.getString("DESCRIPTION")))
+								{
+									Log.d("Counter","blop");
+									Toast.makeText(getActivity(), "blop", Toast.LENGTH_SHORT).show();
+									String newTitle = (title.getText().toString().equals(""))?args.getString("TITLE"):title.getText().toString();
+									String newDescription = (description.getText().toString().equals(""))?args.getString("DESCRIPTION"):description.getText().toString();
+									Log.d("Counter",newTitle+" "+newDescription);
+									Toast.makeText(getActivity(), newTitle+" "+newDescription, Toast.LENGTH_SHORT).show();
+									Counter counter = new Counter(args.getLong("ID"),newTitle,newDescription,Integer.valueOf(count.getText().toString()));     
+									
+									Log.d("Counter ChangeCounterDialog onClick"," BUTTON_POSITIVE modif ok "+counter.toString());
+									ChangeCounterDialogListenerInterface mainActivity = (ChangeCounterDialogListenerInterface) getActivity();
+									mainActivity.onFinishChangeCounterDialog(counter);
+								}
 							this.dismiss();
 							break;
 						}
@@ -98,7 +115,7 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 				case DialogInterface.BUTTON_NEGATIVE:
 						{
 							ChangeCounterDialogListenerInterface mainActivity = (ChangeCounterDialogListenerInterface)getActivity();
-							mainActivity.onFinishChangeCounterDialog(counter);
+							mainActivity.onCancelChangeCounterDialog();
 							this.dismiss();
 							break;
 						}

@@ -57,12 +57,12 @@ public class AddCounterDialog extends DialogFragment implements android.content.
 		{
 		case(DialogInterface.BUTTON_POSITIVE):
 			{
-				Log.d("[Counter AddCounterDialog onClick ]", "Title : "+title.getText().toString()
+				Log.d("Counter AddCounterDialog onClick ", "Title : "+title.getText().toString()
 						+" Description : "+description.getText().toString());
 				
 				if(!title.getText().toString().equals("") && !description.getText().toString().equals(""))
 				{
-					Log.d("[Counter AddCounterDialog onClick ]","Titre renseigné et description aussi");
+					Log.d("Counter AddCounterDialog onClick ","Titre renseigné et description aussi");
 					//return title and description to the main activity
 				    AddCounterDialogOkListener mainActivity = (AddCounterDialogOkListener) getActivity();
 				    mainActivity.onFinishAddCounterDialog(title.getText().toString(), description.getText().toString());
