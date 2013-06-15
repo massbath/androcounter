@@ -2,6 +2,7 @@ package com.example.counter;
 
 import java.util.ArrayList;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +27,7 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 	ListView listviewCounter;
 	CounterBDD counterBDD;
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,6 +35,8 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 		listviewCounter = (ListView)findViewById(R.id.lvCounter);
 		listviewCounter.setOnItemClickListener(this);
 		 counterBDD = new CounterBDD(this);
+		 counterBDD.open();
+		
 		updateListViewCounter();
 	}
 
@@ -79,12 +83,12 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 
 	public void updateListViewCounter()
 	{
-	
-				
-		counterBDD.open();
-		listCounter = counterBDD.getAllCounter();
-		counterBDD.close();
+		
+				//counterBDD.open();
+				listCounter = counterBDD.getAllCounter();
+				//counterBDD.close();
 
+			
 		CounterAdapter counterAdapter = new CounterAdapter(this,listCounter);
 		listviewCounter.setAdapter(counterAdapter);
 		Log.d("Counter MainActivity updateListViewCounter","End update list of counter");
@@ -98,6 +102,7 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 		 data = listviewCounter.getItemAtPosition(position);
 		 Counter counter = new Counter();
 		 counter = (Counter) data;
+		 Log.d("[Counter MainActivity onItemClick]",String.valueOf(id));
 		 Log.d("[Counter MainActivity onItemClick]",data.toString());
 		 showChangeCounterDialog(counter);
 		 updateListViewCounter();
@@ -108,9 +113,9 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 	public void onFinishAddCounterDialog(String Title,String Description)
 	{
 		Counter newCounter = new Counter(Title,Description,0);
-		counterBDD.open();
+		//counterBDD.open();
 		long res = counterBDD.insertCounter(newCounter);
-		counterBDD.close();
+		//counterBDD.close();
 		if (res<0)
 			{
 				Toast.makeText(this, R.string.add_cancel_double, Toast.LENGTH_SHORT).show();
@@ -128,9 +133,9 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 	@Override
 	public void onFinishChangeCounterDialog(Counter counter) {
 		// TODO Auto-generated method stub
-		counterBDD.open();
+		//counterBDD.open();
 		counterBDD.updateCounter(counter.getId(), counter);
-		counterBDD.close();
+		//counterBDD.close();
 		updateListViewCounter();
 		
 		
@@ -139,9 +144,9 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 	@Override
 	public boolean  onChangeCounterTitle(long id, String title) {
 		// TODO Auto-generated method stub
-		counterBDD.open();
+		//counterBDD.open();
 		boolean res = counterBDD.isFreeTitle(id, title);
-		counterBDD.close();
+		//counterBDD.close();
 		return res;
 	}
 
@@ -153,9 +158,9 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				counterBDD.open();
+				//counterBDD.open();
 				counterBDD.countPlusCounter(counter);
-				counterBDD.close();
+				//counterBDD.close();
 			}
 			
 		}).start();
@@ -169,9 +174,9 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				counterBDD.open();
+				//counterBDD.open();
 				counterBDD.countMinusCounter(counter);
-				counterBDD.close();
+				//counterBDD.close();
 			}
 			
 		}).start();
@@ -179,17 +184,17 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 
 	@Override
 	public void removeCounter(final Counter counter) {
-		counterBDD.open();
+		//counterBDD.open();
 		counterBDD.removeCounter(counter);
-		counterBDD.close();
+		//counterBDD.close();
 		updateListViewCounter();
 	}
 
 	@Override
 	public boolean isTitleFree(String title) {
-		counterBDD.open();
+		//counterBDD.open();
 		boolean res = counterBDD.isFreeTitle(title);
-		counterBDD.close();
+		
 		return res;
 	}
 
@@ -199,5 +204,13 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 		updateListViewCounter();
 	}
 
+	 protected void onDestroy()
+     {
+             if (counterBDD != null)
+             {
+                     counterBDD.close();
+             }
+             super.onDestroy();
+     }
 	
 }
