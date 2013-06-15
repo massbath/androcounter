@@ -13,7 +13,7 @@
     <string name="add_cancel_double">Un compteur existe déja avec ce titre</string>
     <string name="not_all_inputs">Tous les champs ne sont pas remplis</string>
 	<string name="count_negatif">Le compteur ne peut pas être négatif !</string>
-	<string name="change">Modifier</string>
+	<string name="change">Valider les modification</string>
 	<string name="title_already_used">Titre déja utilisé</string>
 	<string name="deleteCounter">Supprimer le compteur</string>
 </resources>

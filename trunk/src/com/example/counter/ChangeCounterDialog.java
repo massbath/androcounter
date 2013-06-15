@@ -174,17 +174,32 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 		// TODO Auto-generated method stub
 		if(!hasFocus)
 			{
-				Bundle args = getArguments();
-				ChangeCounterDialogListenerInterface mainActivity = (ChangeCounterDialogListenerInterface) getActivity();
-				boolean res = mainActivity.onChangeCounterTitle(args.getLong("ID"),title.getText().toString());
-				Log.d("Counter ChangeCounterDialog onFocusChange","res = "+res);
-				//if there is other counter with the title
-				if(!res)
-					{
-						Toast.makeText(getActivity(), R.string.title_already_used, Toast.LENGTH_SHORT).show();
-						title.setText(args.getString("TITLE"));
-						
-					}
+			
+			AlertDialog.Builder box;
+			box = new AlertDialog.Builder(getActivity());
+			box.setTitle("Modification");
+			box.setMessage("Valider le changement ?");
+			box.setPositiveButton(R.string.change,new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					Bundle args = getArguments();
+					ChangeCounterDialogListenerInterface mainActivity = (ChangeCounterDialogListenerInterface) getActivity();
+					boolean res = mainActivity.onChangeCounterTitle(args.getLong("ID"),title.getText().toString());
+					Log.d("Counter ChangeCounterDialog onFocusChange","res = "+res);
+					//if there is other counter with the title
+					if(!res)
+						{
+							Toast.makeText(getActivity(), R.string.title_already_used, Toast.LENGTH_SHORT).show();
+							title.setText(args.getString("TITLE"));
+							
+						}
+					
+				}
+			});
+			box.show();
+				
 			}
 	}
 

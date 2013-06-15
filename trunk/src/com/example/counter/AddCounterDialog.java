@@ -85,10 +85,12 @@ public class AddCounterDialog extends DialogFragment implements android.content.
 	}
 
 	@Override
-	public void onFocusChange(View arg0, boolean hasFocus) {
+	public void onFocusChange(View view, boolean hasFocus) {
 		// TODO Auto-generated method stub
 		if(!hasFocus)
 			{
+			
+			
 			AddCounterDialogOkListener mainActivity = (AddCounterDialogOkListener) getActivity();
 			boolean res = mainActivity.isTitleFree(title.getText().toString());
 			Log.d("Counter AddCounterDialog onFocusChange","res = "+res);
