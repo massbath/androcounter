@@ -49,6 +49,7 @@ public final class R {
         public static final int main=0x7f070000;
     }
     public static final class string {
+        public static final int accept_change=0x7f05000f;
         public static final int action_settings=0x7f050001;
         public static final int add=0x7f050007;
         public static final int add_cancel_double=0x7f050009;
@@ -57,11 +58,15 @@ public final class R {
         public static final int cancel=0x7f050008;
         public static final int change=0x7f05000c;
         public static final int change_counter=0x7f050004;
+        public static final int close=0x7f050013;
         public static final int count_negatif=0x7f05000b;
         public static final int deleteCounter=0x7f05000e;
         public static final int description=0x7f050006;
         public static final int hello_world=0x7f050002;
+        public static final int modification=0x7f050011;
         public static final int not_all_inputs=0x7f05000a;
+        public static final int of_description=0x7f050012;
+        public static final int of_title=0x7f050010;
         public static final int title=0x7f050005;
         public static final int title_already_used=0x7f05000d;
     }

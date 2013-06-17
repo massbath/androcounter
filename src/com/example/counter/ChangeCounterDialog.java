@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -13,13 +14,15 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChangeCounterDialog extends DialogFragment implements OnClickListener, android.view.View.OnClickListener, OnFocusChangeListener   {
+public class ChangeCounterDialog extends DialogFragment implements OnClickListener, android.view.View.OnClickListener   {
 
 	private EditText title;
+	private boolean titleChecked;
+	private boolean descriptionChecked;
+	
 	private EditText description;
 	private Counter counter = new Counter();
 	private Button plus;
@@ -54,15 +57,39 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		
+		titleChecked = false;
+		descriptionChecked = false;
+		
 		LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 	    View view = layoutInflater.inflate(R.layout.change_counter_dialog, null);
-	    Bundle args = getArguments();
+	    final Bundle args = getArguments();
 	    Log.d("[Counter ChangeCounterDialog onCreateDialog]",args.toString());
 	    title = (EditText)view.findViewById(R.id.etChangeTitle);
 	    title.setHint(args.getString("TITLE"));
-	    title.setOnFocusChangeListener(this);
+	    title.setOnFocusChangeListener(new OnFocusChangeListener()
+	    	{
+
+				@Override
+				public void onFocusChange(View view, boolean hasFocus) {
+					// TODO Auto-generated method stub
+					if(!hasFocus) checkTitle();
+				}
+	    	
+	    	
+	    	});
+	    
 		description = (EditText) view.findViewById(R.id.etChangeDescription);
 		description.setHint(getArguments().getString("DESCRIPTION"));
+		description.setOnFocusChangeListener(new OnFocusChangeListener(){
+
+			@Override
+			public void onFocusChange(View view, boolean hasFocus) {
+				// TODO Auto-generated method stub
+				if(!hasFocus) checkDescription();
+					
+			}
+			
+		});
 		plus = (Button)view.findViewById(R.id.buttonPlus);
 		plus.setOnClickListener(this);
 		
@@ -79,8 +106,8 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 		return new AlertDialog.Builder(getActivity())
 	    .setView(view)
 	    .setTitle(R.string.change_counter)
-	    .setPositiveButton(R.string.change, this) 
-	    .setNegativeButton(R.string.cancel, this)
+	    .setPositiveButton(R.string.close, this) 
+	    
 	    .create();
 	    
 	}
@@ -88,35 +115,38 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 	@Override
 	public void onClick(DialogInterface arg0, int which) {
 		// TODO Auto-generated method stub
+		
 		switch(which)
 			{
 				case DialogInterface.BUTTON_POSITIVE:
 						{
+							
 							Bundle args = getArguments();
 							//if one of title or description is different
-							if(!title.getText().toString().equals( args.getString("TITLE")) || !description.getText().toString().equals( args.getString("DESCRIPTION")))
+							if(!title.getText().toString().equals( "") || !description.getText().toString().equals( ""))
 								{
-									Log.d("Counter","blop");
-									Toast.makeText(getActivity(), "blop", Toast.LENGTH_SHORT).show();
 									String newTitle = (title.getText().toString().equals(""))?args.getString("TITLE"):title.getText().toString();
+									ChangeCounterDialogListenerInterface mainActivity = (ChangeCounterDialogListenerInterface) getActivity();
+									boolean res = mainActivity.onChangeCounterTitle(args.getLong("ID"),newTitle);
+									Log.d("Counter ChangeCounterDialog onFocusChange","res = "+res);
+									//if there is other counter with the title
+									if(!res)
+										{
+											Toast.makeText(getActivity(), R.string.title_already_used, Toast.LENGTH_SHORT).show();
+											title.setText("");
+											title.setHint(args.getString("TITLE"));
+											newTitle = args.getString("TITLE");
+										}
+									
 									String newDescription = (description.getText().toString().equals(""))?args.getString("DESCRIPTION"):description.getText().toString();
-									Log.d("Counter",newTitle+" "+newDescription);
+									Log.d("Counter ChangeCounterDialog onClick positif",newTitle+" "+newDescription);
 									Toast.makeText(getActivity(), newTitle+" "+newDescription, Toast.LENGTH_SHORT).show();
 									Counter counter = new Counter(args.getLong("ID"),newTitle,newDescription,Integer.valueOf(count.getText().toString()));     
 									
 									Log.d("Counter ChangeCounterDialog onClick"," BUTTON_POSITIVE modif ok "+counter.toString());
-									ChangeCounterDialogListenerInterface mainActivity = (ChangeCounterDialogListenerInterface) getActivity();
 									mainActivity.onFinishChangeCounterDialog(counter);
 								}
-							this.dismiss();
-							break;
-						}
-						
-				case DialogInterface.BUTTON_NEGATIVE:
-						{
-							ChangeCounterDialogListenerInterface mainActivity = (ChangeCounterDialogListenerInterface)getActivity();
-							mainActivity.onCancelChangeCounterDialog();
-							this.dismiss();
+							//this.dismiss();
 							break;
 						}
 						
@@ -129,10 +159,13 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 		
 		// TODO Auto-generated method stub
 		int valueCount = Integer.valueOf(count.getText().toString());
+		checkTitle();
+		checkDescription();
 		switch(v.getId())
 		{
 			case R.id.buttonMoins:
 				{
+					plus.requestFocus();
 					valueCount -- ;
 					if(valueCount >= 0)
 						{
@@ -169,16 +202,18 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 		}
 	}
 
-	@Override
-	public void onFocusChange(View view, boolean hasFocus) {
-		// TODO Auto-generated method stub
-		if(!hasFocus)
-			{
-			
+ private void checkTitle()
+ {
+	 final Bundle args = getArguments();
+	 Log.d("Counter counterChangeDialog setOnFocusChangeListener", title.getText().toString());
+		if( !title.getText().toString().equals("") && !titleChecked)
+		{
+		
 			AlertDialog.Builder box;
 			box = new AlertDialog.Builder(getActivity());
-			box.setTitle("Modification");
-			box.setMessage("Valider le changement ?");
+			box.setTitle(R.string.modification);
+			Resources res = getResources();
+			box.setMessage(res.getString(R.string.accept_change,res.getString( R.string.of_title)));
 			box.setPositiveButton(R.string.change,new DialogInterface.OnClickListener() {
 				
 				@Override
@@ -192,19 +227,58 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 					if(!res)
 						{
 							Toast.makeText(getActivity(), R.string.title_already_used, Toast.LENGTH_SHORT).show();
-							title.setText(args.getString("TITLE"));
+							title.setText("");
+							title.setHint(args.getString("TITLE"));
 							
 						}
+					else titleChecked=true;
 					
 				}
 			});
+			box.setNegativeButton("Annuler", new DialogInterface.OnClickListener(){
+	
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					// TODO Auto-generated method stub
+						title.setText("");
+						title.setHint(args.getString("TITLE"));
+				}});
 			box.show();
 				
 			}
 	}
+ 
 
 	
-		
+	private void checkDescription()
+	{
+		 final Bundle args = getArguments();
+		if( !description.getText().toString().equals("") && !descriptionChecked)
+		{
+			AlertDialog.Builder box;
+			box = new AlertDialog.Builder(getActivity());
+			box.setTitle(R.string.modification);
+			Resources res = getResources();
+			box.setMessage(res.getString(R.string.accept_change,res.getString( R.string.of_description)));
+			box.setPositiveButton(R.string.change,new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					descriptionChecked=true;
+										}
+			});
+			box.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+	
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					// TODO Auto-generated method stub
+						description.setText("");
+						description.setHint(args.getString("DESCRIPTION"));
+				}});
+			box.show();
+		}
+	}
 	
 	
 }
