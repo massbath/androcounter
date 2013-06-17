@@ -16,4 +16,9 @@
 	<string name="change">Valider les modification</string>
 	<string name="title_already_used">Titre déja utilisé</string>
 	<string name="deleteCounter">Supprimer le compteur</string>
+	<string name="accept_change">Valider le changement %s ?</string>
+	<string name="of_title">du titre</string>
+	<string name="modification">Modification</string>
+	<string name="of_description">de la description</string>
+	<string name="close">Fermer</string>
 </resources>
