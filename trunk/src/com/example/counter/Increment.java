@@ -1,24 +1,31 @@
 package com.example.counter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Increment {
 
 	private long id;
 	private int id_counter;
-	private long date_time; 
+	private String date_time; 
 	
 	public Increment()
 	{}
+
 	
-	public Increment(int id_counter,long date_time)
+	public Increment(int id_counter)
 	{
 		this.id_counter = id_counter;
-		this.date_time = 1111; //récupérer la date actuelle
+		SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
+		this.date_time = s.format(new Date());
+		
 	}
-	public Increment(long id,int id_counter,long date_time)
+	public Increment(long id,int id_counter)
 	{
 		this.id = id;
 		this.id_counter = id_counter;
-		this.date_time = 1111; //récupérer la date actuelle
+		SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
+		this.date_time = s.format(new Date());
 	}
 	
 
@@ -38,11 +45,11 @@ public class Increment {
 		this.id_counter = id_counter;
 	}
 
-	public long getDate_time() {
+	public String getDate_time() {
 		return date_time;
 	}
 
-	public void setDate_time(long date_time) {
+	public void setDate_time(String date_time) {
 		this.date_time = date_time;
 	}
 	

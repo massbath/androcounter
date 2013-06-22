@@ -1,6 +1,7 @@
 package com.example.counter;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 	CounterBDD counterBDD;
 	
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,6 +39,8 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 		 counterBDD = new CounterBDD(this);
 		 counterBDD.open();
 		
+		
+		 
 		updateListViewCounter();
 	}
 
@@ -71,6 +75,7 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 	    addCounterDialog.show(fm, "fragment_addCounterDialog");
 	}
 	
+	//method to show the dialogBox which allow you to increment/decrement,change title or description of a counter
 	private void showChangeCounterDialog(Counter counter)
 	{
 		FragmentManager fm = getSupportFragmentManager();
@@ -84,15 +89,25 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 	public void updateListViewCounter()
 	{
 		
-				//counterBDD.open();
-				listCounter = counterBDD.getAllCounter();
-				//counterBDD.close();
-
-			
-		CounterAdapter counterAdapter = new CounterAdapter(this,listCounter);
-		listviewCounter.setAdapter(counterAdapter);
-		Log.d("Counter MainActivity updateListViewCounter","End update list of counter");
-	
+	    listCounterAsyncTask ListCounterAsyncTask = new listCounterAsyncTask(this);
+	    ListCounterAsyncTask.execute(counterBDD);
+	    
+	    try {
+			listCounter = ListCounterAsyncTask.get();
+			CounterAdapter counterAdapter = new CounterAdapter(this,listCounter);
+			listviewCounter.setAdapter(counterAdapter);
+			Log.d("Counter MainActivity updateListViewCounter","End update list of counter");
+		
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+						
+		
 	}
 
 	@Override

@@ -21,4 +21,7 @@
 	<string name="modification">Modification</string>
 	<string name="of_description">de la description</string>
 	<string name="close">Fermer</string>
+	<string name="give_new_description">Nouvelle description :</string>
+	<string name="give_new_title">Nouveau Titre :</string>
+	<string name="load">Chargement</string>
 </resources>
