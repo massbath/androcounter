@@ -62,7 +62,10 @@ public final class R {
         public static final int count_negatif=0x7f05000b;
         public static final int deleteCounter=0x7f05000e;
         public static final int description=0x7f050006;
+        public static final int give_new_description=0x7f050014;
+        public static final int give_new_title=0x7f050015;
         public static final int hello_world=0x7f050002;
+        public static final int load=0x7f050016;
         public static final int modification=0x7f050011;
         public static final int not_all_inputs=0x7f05000a;
         public static final int of_description=0x7f050012;
