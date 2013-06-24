@@ -1,49 +1,28 @@
 package com.example.counter;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class CounterBDD {
+public class CounterBDD extends DBBaseAdapter{
 	
-	private static final int VERSION_BDD =1;
-	private static final String NOM_BDD = "counter.bd";
-	private static final String TABLE_COUNTER = "table_counter";
-	private static final String COL_ID = "ID";
-	private static final int NUM_COL_ID = 0;
-	private static final String COL_TITLE ="Title";
-	private static final int NUM_COL_TITLE = 1;
-	private static final String COL_DESCRIPTION = "Description";
-	private static final int NUM_COL_DESCRIPTION = 2;
-	private static final String COL_COUNT = "Count";
-	private static final int NUM_COL_COUNT = 3;
+IncrementBDD table_increment;
 	
-	private SQLiteDatabase bdd;
-	private MaBaseSQLite maBaseSQLite;
-	
-	public CounterBDD(Context context)
+	public CounterBDD(Activity a)
 	{
-		maBaseSQLite = new MaBaseSQLite(context,NOM_BDD,null,VERSION_BDD);
+		super(a);
+		Log.d("Counter CounterBDD","CounterBDD intancied");
+		table_increment = new IncrementBDD(a);
 	}
 	
-	public void open()
-	{
-		bdd = maBaseSQLite.getWritableDatabase();
-	}
 	
-	public void close()
-	{
-		bdd.close();
-		
-	}
-	public SQLiteDatabase getBDD()
-	{
-		return bdd;
-	}
+	
+	
+	
 	
 	public long insertCounter(Counter newCounter)
 	{
@@ -52,14 +31,14 @@ public class CounterBDD {
 		values.put(COL_DESCRIPTION, newCounter.getDescription());
 		values.put(COL_COUNT, newCounter.getCount());
 		
-		return bdd.insert(TABLE_COUNTER, null, values);
+		return ourDatabase.insert(TABLE_COUNTER, null, values);
 		
 	}
 	
 	public int updateCounter(long id, Counter updateCounter)
 	{
 		//we don't want have 2 counter with the same title in the DB
-		Cursor c = bdd.query(TABLE_COUNTER,new String[]{COL_ID},COL_TITLE+" LIKE \""+updateCounter.getTitle()+"\" AND "+COL_ID+" !="+id,null,null,null,null);
+		Cursor c = ourDatabase.query(TABLE_COUNTER,new String[]{COL_ID},COL_TITLE+" LIKE \""+updateCounter.getTitle()+"\" AND "+COL_ID+" !="+id,null,null,null,null);
 		//if there is already a counter with this name in database
 		if(c.getCount()==1)
 			return -1;
@@ -68,7 +47,7 @@ public class CounterBDD {
 		values.put(COL_TITLE, updateCounter.getTitle());
 		values.put(COL_DESCRIPTION, updateCounter.getDescription());
 		//values.put(COL_COUNT, updateCounter.getCount());
-		return bdd.update(TABLE_COUNTER, values, COL_ID+" = "+id, null);
+		return ourDatabase.update(TABLE_COUNTER, values, COL_ID+" = "+id, null);
 	}
 	
 	public int updateCountofCounter(Counter counter)
@@ -76,7 +55,7 @@ public class CounterBDD {
 		ContentValues values = new ContentValues();
 		values.put(COL_COUNT, counter.getCount());
 		Log.d("Counter CounterBDD updateCountOfCounter",counter.toString());
-		return bdd.update(TABLE_COUNTER, values, COL_ID+" = "+counter.getId(), null);
+		return ourDatabase.update(TABLE_COUNTER, values, COL_ID+" = "+counter.getId(), null);
 		
 		
 	}
@@ -87,13 +66,11 @@ public class CounterBDD {
 		ContentValues values = new ContentValues();
 		values.put(COL_COUNT, counter.getCount());
 		Log.d("Counter CounterBDD countPlusCounter",counter.toString());
-	    bdd.update(TABLE_COUNTER, values, COL_ID+" = "+counter.getId(), null);
-	    /*
-	     ContentValues values = new ContentValues();
-	     values.put(COL_ID_COUNTER,counter.getId());
-	     values.put(COL_DATE,date);
-	     bdd.insert(TABLE_COUNT,null,values); 
-	     */
+		ourDatabase.update(TABLE_COUNTER, values, COL_ID+" = "+counter.getId(), null);
+	   
+		Increment newIncrement = new Increment(counter.getId());
+		table_increment.addIncrement(newIncrement);
+		
 	}
 	
 	//decrement the counter TODO remove the last increment date in the table increment
@@ -102,35 +79,36 @@ public class CounterBDD {
 		ContentValues values = new ContentValues();
 		values.put(COL_COUNT, counter.getCount());
 		Log.d("Counter CounterBDD countPlusCounter",counter.toString());
-	    bdd.update(TABLE_COUNTER, values, COL_ID+" = "+counter.getId(), null);	
-	    /*
-	    
-	    supprimer le dernier count lié au counter
-	     */
-	  
+		ourDatabase.update(TABLE_COUNTER, values, COL_ID+" = "+counter.getId(), null);	
+	   
+		table_increment.deleteLastIncrementOfCounter(counter.getId());
 	}
 	
 	public int removeCounterWithId(int id)
 	{
-		return bdd.delete(TABLE_COUNTER, COL_ID +" = "+id, null);
+		int retour =  ourDatabase.delete(TABLE_COUNTER, COL_ID +" = "+id, null);
+		table_increment.deleteIncrementOfCounter(id);
+		return retour;
 		
 	}
 	
 	// todo remove all the increment date in the table increment with id of this counter
 	public int removeCounter(Counter counter)
 	{
-		return bdd.delete(TABLE_COUNTER, COL_ID+" = "+counter.getId(), null);
+		int retour =  ourDatabase.delete(TABLE_COUNTER, COL_ID+" = "+counter.getId(), null);
+		table_increment.deleteIncrementOfCounter(counter.getId());
+		return retour;
 		
 	}
 	public Counter getCounterWithTitle(String title)
 	{
-		Cursor c = bdd.query(TABLE_COUNTER, new String[]{COL_ID,COL_TITLE,COL_DESCRIPTION,COL_COUNT}, COL_TITLE+" LIKE \""+title+"\"", null, null, null, null);
+		Cursor c = ourDatabase.query(TABLE_COUNTER, new String[]{COL_ID,COL_TITLE,COL_DESCRIPTION,COL_COUNT}, COL_TITLE+" LIKE \""+title+"\"", null, null, null, null);
 		return cursorToCounter(c);
 	}
 	
 	public boolean isFreeTitle(long id,String title)
 	{
-		Cursor c = bdd.query(TABLE_COUNTER,new String[]{COL_ID},COL_TITLE+" LIKE \""+title+"\" AND "+COL_ID+" !="+id,null,null,null,null);
+		Cursor c = ourDatabase.query(TABLE_COUNTER,new String[]{COL_ID},COL_TITLE+" LIKE \""+title+"\" AND "+COL_ID+" !="+id,null,null,null,null);
 		//if there is already a counter with this name in database
 		if(c.getCount()>=1)
 			return false;
@@ -139,7 +117,7 @@ public class CounterBDD {
 	
 	public boolean isFreeTitle(String title)
 	{
-		Cursor c = bdd.query(TABLE_COUNTER,new String[]{COL_ID},COL_TITLE+" LIKE \""+title+"\"",null,null,null,null);
+		Cursor c = ourDatabase.query(TABLE_COUNTER,new String[]{COL_ID},COL_TITLE+" LIKE \""+title+"\"",null,null,null,null);
 		//if there is already a counter with this name in database
 		if(c.getCount()>=1)
 			return false;
@@ -166,7 +144,7 @@ public class CounterBDD {
 	
 	public ArrayList<Counter> getAllCounter()
 	{
-		Cursor c = bdd.query(TABLE_COUNTER, new String[]{COL_ID,COL_TITLE,COL_DESCRIPTION,COL_COUNT}, null, null, null, null, null);
+		Cursor c = ourDatabase.query(TABLE_COUNTER, new String[]{COL_ID,COL_TITLE,COL_DESCRIPTION,COL_COUNT}, null, null, null, null, null);
 		
 		ArrayList<Counter> listCounter = new ArrayList<Counter>();
 		
