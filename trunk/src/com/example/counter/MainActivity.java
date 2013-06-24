@@ -1,5 +1,6 @@
 package com.example.counter;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -37,8 +38,13 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 		listviewCounter = (ListView)findViewById(R.id.lvCounter);
 		listviewCounter.setOnItemClickListener(this);
 		 counterBDD = new CounterBDD(this);
-		 counterBDD.open();
 		
+		try {
+			counterBDD.open();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		 
 		updateListViewCounter();

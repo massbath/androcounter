@@ -6,21 +6,21 @@ import java.util.Date;
 public class Increment {
 
 	private long id;
-	private int id_counter;
+	private long id_counter;
 	private String date_time; 
 	
 	public Increment()
 	{}
 
 	
-	public Increment(int id_counter)
+	public Increment(long id_counter)
 	{
 		this.id_counter = id_counter;
 		SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
 		this.date_time = s.format(new Date());
 		
 	}
-	public Increment(long id,int id_counter)
+	public Increment(long id,long id_counter)
 	{
 		this.id = id;
 		this.id_counter = id_counter;
@@ -37,11 +37,11 @@ public class Increment {
 		this.id = id;
 	}
 
-	public int getId_counter() {
+	public long getId_counter() {
 		return id_counter;
 	}
 
-	public void setId_counter(int id_counter) {
+	public void setId_counter(long id_counter) {
 		this.id_counter = id_counter;
 	}
 
