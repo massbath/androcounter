@@ -1,5 +1,7 @@
 package com.example.counter;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -60,6 +62,20 @@ public class IncrementBDD extends DBBaseAdapter {
 		return retour;
 	}
 	
-	
+	public ArrayList<Integer> getAllDateIncrementOfCounter(long idcounter)
+	{
+		ArrayList<Integer> dateIncrement = new ArrayList<Integer>();
+		
+		Cursor res = ourDatabase.query(TABLE_INCREMENT, new String[]{COL_ID,COL_ID_COUNTER,COL_DATE_INCREMENT}, COL_ID_COUNTER+" = "+idcounter, null, null, null, null);
+		Log.d("Counter IncrementBDD", "getAllDateIncrementOfCounter cursor size : "+String.valueOf(res.getCount()));
+		
+		for(res.moveToFirst();!res.isAfterLast();res.moveToNext())
+			{
+				dateIncrement.add(res.getInt(NUM_COL_DATE_INCREMENT));
+			}
+		res.close();
+		Log.d("Counter IncrementBDD", "getAllDateIncrementOfCounter "+String.valueOf(dateIncrement.size()));
+		return dateIncrement;
+	}
 	
 }

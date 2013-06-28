@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.counter.AddCounterDialog.AddCounterDialogOkListener;
 import com.example.counter.ChangeCounterDialog.ChangeCounterDialogListenerInterface;
+import com.example.counterGraph.counterGraphActivity;
 
 public class MainActivity extends FragmentActivity implements AddCounterDialogOkListener,ChangeCounterDialogListenerInterface, OnItemClickListener{
 	
@@ -233,5 +235,28 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
              }
              super.onDestroy();
      }
+
+	@Override
+	public void showGraphCounter(long id_counter) {
+		// TODO Auto-generated method stub
+		
+		Bundle objetbunble = new Bundle();		
+		objetbunble.putLong("id_counter", id_counter);
+
+		Intent intent  = new Intent(MainActivity.this,counterGraphActivity.class);
+
+		//On affecte à l'Intent le Bundle que l'on a créé
+		intent.putExtras(objetbunble);
+
+		//On démarre l'autre Activity
+		startActivity(intent);
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		updateListViewCounter();
+	}
 	
 }
