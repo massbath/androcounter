@@ -7,7 +7,7 @@ public class Increment {
 
 	private long id;
 	private long id_counter;
-	private String date_time; 
+	private long date_time; 
 	
 	public Increment()
 	{}
@@ -16,16 +16,15 @@ public class Increment {
 	public Increment(long id_counter)
 	{
 		this.id_counter = id_counter;
-		SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
-		this.date_time = s.format(new Date());
+		
+		this.date_time = System.currentTimeMillis()/1000;;
 		
 	}
 	public Increment(long id,long id_counter)
 	{
 		this.id = id;
 		this.id_counter = id_counter;
-		SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
-		this.date_time = s.format(new Date());
+		this.date_time = System.currentTimeMillis()/1000;
 	}
 	
 
@@ -45,11 +44,11 @@ public class Increment {
 		this.id_counter = id_counter;
 	}
 
-	public String getDate_time() {
+	public long getDate_time() {
 		return date_time;
 	}
 
-	public void setDate_time(String date_time) {
+	public void setDate_time(long date_time) {
 		this.date_time = date_time;
 	}
 	

@@ -24,4 +24,5 @@
 	<string name="give_new_description">Nouvelle description :</string>
 	<string name="give_new_title">Nouveau Titre :</string>
 	<string name="load">Chargement</string>
+	<string name="wait_please">Veuillez patienter</string>
 </resources>

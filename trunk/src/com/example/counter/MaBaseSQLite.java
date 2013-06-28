@@ -29,7 +29,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
 	private static final String CREATE_TABLE_INCREMENT = "CREATE TABLE"+TABLE_INCREMENT+" "
 			+"("+COL_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+COL_ID_COUNTER+ " INTEGER,"
-			+COL_DATE_INCREMENT+" TEXT);";
+			+COL_DATE_INCREMENT+" INTEGER);";
 			
 	private static final String DROP_TABLE_COUNTER = "DROP TABLE IF EXISTS " + TABLE_COUNTER + ";";
 	private static final String DROP_TABLE_INCREMENT = "DROP TABLE IF EXISTS " + TABLE_INCREMENT + ";";

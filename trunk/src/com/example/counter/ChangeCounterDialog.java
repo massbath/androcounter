@@ -29,6 +29,7 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 	private TextView count;
 	private Button moins;
 	private ImageButton delete;
+	private ImageButton showGraph;
 	
 	//interface à implémenter dans l'activité ouvrant la dialogue, ce qui permet de tranfsférer les données
 	public interface ChangeCounterDialogListenerInterface{
@@ -38,6 +39,7 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 		void countPlus(Counter counter);
 		void countMinus(Counter counter);
 		void removeCounter(Counter counter);
+		void showGraphCounter(long id_counter);
 	}
 	
 	
@@ -153,6 +155,10 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 		delete.setClickable(true);
 		delete.setOnClickListener(this);
 		
+		showGraph = (ImageButton)view.findViewById(R.id.btnShowGraph);
+		showGraph.setClickable(true);
+		showGraph.setOnClickListener(this);
+		
 		return new AlertDialog.Builder(getActivity())
 	    .setView(view)
 	    .setTitle(R.string.change_counter)
@@ -231,6 +237,14 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 					//Toast.makeText(getActivity(),"delete",Toast.LENGTH_SHORT).show();
 					ChangeCounterDialogListenerInterface mainActivity  =(ChangeCounterDialogListenerInterface)getActivity();
 					mainActivity.removeCounter(counter);
+					this.dismiss();
+					break;
+				}
+			case R.id.btnShowGraph:
+				{
+					Log.d("Counter ChangeCounterDialog", "OnClick showGraph");
+					ChangeCounterDialogListenerInterface mainActivity  =(ChangeCounterDialogListenerInterface)getActivity();
+					mainActivity.showGraphCounter(args.getLong("ID"));
 					this.dismiss();
 					break;
 				}
