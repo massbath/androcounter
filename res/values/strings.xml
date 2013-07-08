@@ -7,7 +7,7 @@
     <string name="add_counter">Ajouter compteur</string>
      <string name="change_counter">Modifier compteur</string>
     <string name="title">Titre </string>
-    <string name="description">Description</string>
+    <string name="description">Description </string>
     <string name="add">Ajouter</string>
     <string name="cancel">Annuler</string>
     <string name="add_cancel_double">Un compteur existe déja avec ce titre</string>
@@ -25,4 +25,6 @@
 	<string name="give_new_title">Nouveau Titre :</string>
 	<string name="load">Chargement</string>
 	<string name="wait_please">Veuillez patienter</string>
+	<string name="Counter">Compteur</string>
+	<string name="Date">Date</string>
 </resources>

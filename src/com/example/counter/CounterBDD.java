@@ -106,6 +106,12 @@ IncrementBDD table_increment;
 		return cursorToCounter(c);
 	}
 	
+	public Counter getCounterWithId(Long id)
+	{
+		Cursor c = ourDatabase.query(TABLE_COUNTER, new String[]{COL_ID,COL_TITLE,COL_DESCRIPTION,COL_COUNT}, COL_ID+" = "+id, null, null, null, null);
+		return cursorToCounter(c);
+	}
+	
 	public boolean isFreeTitle(long id,String title)
 	{
 		Cursor c = ourDatabase.query(TABLE_COUNTER,new String[]{COL_ID},COL_TITLE+" LIKE \""+title+"\" AND "+COL_ID+" !="+id,null,null,null,null);
@@ -156,5 +162,21 @@ IncrementBDD table_increment;
 		
 		c.close();
 		return listCounter;
+	}
+	
+	public ArrayList<Integer>getAllDateIncrementOfCounter(long id)
+	{
+		ArrayList<Integer> dateIncrement = new ArrayList<Integer>();
+		
+		Cursor res = ourDatabase.query(TABLE_INCREMENT, new String[]{COL_ID,COL_ID_COUNTER,COL_DATE_INCREMENT}, COL_ID_COUNTER+" = "+id, null, null, null, null);
+		Log.d("Counter IncrementBDD", "getAllDateIncrementOfCounter cursor size : "+String.valueOf(res.getCount()));
+		
+		for(res.moveToFirst();!res.isAfterLast();res.moveToNext())
+			{
+				dateIncrement.add(res.getInt(NUM_COL_DATE_INCREMENT));
+			}
+		res.close();
+		Log.d("Counter Counter", "getAllDateIncrementOfCounter "+String.valueOf(dateIncrement.size()));
+		return dateIncrement;
 	}
 }
