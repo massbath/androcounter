@@ -27,4 +27,6 @@
 	<string name="wait_please">Veuillez patienter</string>
 	<string name="Counter">Compteur</string>
 	<string name="Date">Date</string>
+	<string name="exportCSV">Exporter historique</string>
+	<string name="create_file">Création du fichier %s</string>
 </resources>

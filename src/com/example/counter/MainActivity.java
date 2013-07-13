@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.example.counter.AddCounterDialog.AddCounterDialogOkListener;
 import com.example.counter.ChangeCounterDialog.ChangeCounterDialogListenerInterface;
-import com.example.counterGraph.counterGraphActivity;
+import com.example.counterHistorique.CounterHistoActivity;
 
 public class MainActivity extends FragmentActivity implements AddCounterDialogOkListener,ChangeCounterDialogListenerInterface, OnItemClickListener{
 	
@@ -67,12 +67,24 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 				
 					showAddCounterDialog();
 					break;
-				
+					
+				case(R.id.action_export_csv):
+					new Thread(new Runnable(){
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							
+						}
+						
+					}).start();
+					break;
 			}
 		
 		// TODO Auto-generated method stub
 		return super.onOptionsItemSelected(item);
 	}
+	
 	
 	
 	//method to show the custom dialogBox to add a new counter
@@ -243,7 +255,7 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 		Bundle objetbunble = new Bundle();		
 		objetbunble.putLong("id_counter", id_counter);
 
-		Intent intent  = new Intent(MainActivity.this,counterGraphActivity.class);
+		Intent intent  = new Intent(MainActivity.this,CounterHistoActivity.class);
 
 		//On affecte à l'Intent le Bundle que l'on a créé
 		intent.putExtras(objetbunble);
