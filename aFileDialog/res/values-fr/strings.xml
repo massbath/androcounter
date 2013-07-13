@@ -3,7 +3,7 @@
 
     <string name="daidalos_hello">Hello World!</string>
     <string name="daidalos_app_name">AFileDialog</string>
-    <color name="daidalos_gray">#888</color>
+    <color name="daidalos_gray">#FFFFFF</color>
     <string name="daidalos_select">Sélectionner</string>
     <string name="daidalos_cancel">Annuler</string>
     <string name="daidalos_ok">Accepter</string>

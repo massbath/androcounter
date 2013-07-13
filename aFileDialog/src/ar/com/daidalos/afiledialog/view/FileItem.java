@@ -30,6 +30,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import ar.com.daidalos.afiledialog.R;
 
 /**
@@ -199,7 +200,8 @@ public class FileItem extends LinearLayout {
 		
 		// Change the color of the text.
 		if(icon != R.drawable.document_gray) {
-			this.label.setTextColor(Color.WHITE);
+			this.label.setTextColor(Color.BLACK);
+			
 		} else {
 			this.label.setTextColor(Color.GRAY);
 		}
