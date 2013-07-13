@@ -17,7 +17,7 @@ public class Increment {
 	{
 		this.id_counter = id_counter;
 		
-		this.date_time = System.currentTimeMillis()/1000;;
+		this.date_time = System.currentTimeMillis()/1000;
 		
 	}
 	public Increment(long id,long id_counter)
