@@ -116,21 +116,27 @@ public class ExportDBCounter {
 				xmlSerializer.text(String.valueOf(listCounter.get(i).getCount()));
 				xmlSerializer.endTag("", baliseXml.COUNT);
 				
-				//add all the increment of this counter
-				xmlSerializer.startTag("", baliseXml.INCREMENTS);
-				ArrayList<Integer> listIncrement = new ArrayList<Integer>();
-				listIncrement = incrementBDD.getAllDateIncrementOfCounter(listCounter.get(i).getId());
-				for(int j = 0;j<listIncrement.size();j++)
-					{
-						//add tag increment
-						xmlSerializer.startTag("",baliseXml.INCREMENT);
-						//set attribute date
-						xmlSerializer.attribute("", baliseXml.DATE, listIncrement.get(j).toString());
-						//close tag increment
-						xmlSerializer.endTag("", baliseXml.INCREMENT);
-					}
-				//close tag increments
-				xmlSerializer.endTag("", baliseXml.INCREMENTS);
+				//if there are increments
+				if(listCounter.get(i).getCount()>0)
+				{	
+					//add all the increment of this counter
+					xmlSerializer.startTag("", baliseXml.INCREMENTS);
+					ArrayList<Integer> listIncrement = new ArrayList<Integer>();
+					listIncrement = incrementBDD.getAllDateIncrementOfCounter(listCounter.get(i).getId());
+					for(int j = 0;j<listIncrement.size();j++)
+						{
+							//add tag increment
+							xmlSerializer.startTag("",baliseXml.INCREMENT);
+							//set attribute date
+							xmlSerializer.attribute("", baliseXml.DATE, listIncrement.get(j).toString());
+							//close tag increment
+							xmlSerializer.endTag("", baliseXml.INCREMENT);
+						}
+					//close tag increments
+					xmlSerializer.endTag("", baliseXml.INCREMENTS);					
+				}
+				
+				
 				//close tag counter
 				xmlSerializer.endTag("",baliseXml.COUNTER);
 			}
