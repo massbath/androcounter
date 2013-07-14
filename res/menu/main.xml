@@ -9,5 +9,10 @@
 	    android:id="@+id/add_counter"
 	    android:showAsAction="ifRoom"
 	    android:icon="@android:drawable/ic_menu_add"
-	    android:title="@string/add_counter"/>"
+	    android:title="@string/add_counter"/>
+	
+	<item android:id="@+id/export_xml" android:title="@string/exportXML" android:showAsAction="ifRoom"></item>
+	
+	
+	
 </menu>

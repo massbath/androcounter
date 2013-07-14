@@ -1,9 +1,13 @@
 package com.example.counter;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +21,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+import ar.com.daidalos.afiledialog.FileChooserDialog;
+import ar.com.daidalos.afiledialog.FileChooserDialog.OnFileSelectedListener;
 
+import com.counterDroid.exportImportXML.ExportDBCounter;
 import com.example.counter.AddCounterDialog.AddCounterDialogOkListener;
 import com.example.counter.ChangeCounterDialog.ChangeCounterDialogListenerInterface;
 import com.example.counterHistorique.CounterHistoActivity;
@@ -68,16 +75,61 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 					showAddCounterDialog();
 					break;
 					
-				case(R.id.action_export_csv):
-					new Thread(new Runnable(){
+				case(R.id.export_xml):
+					Log.d("Counter", "MainActivity export xml clicked");
+					final Activity activity =  this;
+				
+					FileChooserDialog dialog = new FileChooserDialog(this);
+					dialog.setFolderMode(true);
+					dialog.addListener(new OnFileSelectedListener(){
+					
+						@Override
+						public void onFileSelected(Dialog source,  File file) {
+							// TODO Auto-generated method stub
+							source.hide();
+				             Toast toast = Toast.makeText(source.getContext(), "File selected: " + file.getAbsolutePath(), Toast.LENGTH_LONG);
+				             toast.show();
+				             //file.getAbsolutePath();
+				             final String path = file.getAbsolutePath();
+				        
+						
+				            new Thread(new Runnable(){
+
+									@Override
+									public void run() {
+										
+										// TODO Auto-generated method stub
+										try {
+											new ExportDBCounter(activity,path).write(ExportDBCounter.XML);
+										} catch (IllegalArgumentException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										} catch (IllegalStateException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										} catch (IOException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+									}
+									
+								}).start();
+				             source.cancel();
+						}
+	
+						
 
 						@Override
-						public void run() {
+						public void onFileSelected(Dialog source, File folder,
+								String name) {
 							// TODO Auto-generated method stub
 							
-						}
-						
-					}).start();
+						}});
+					dialog.show();
+				
+				
+				
+					
 					break;
 			}
 		
