@@ -25,6 +25,7 @@ int id etChangeDescription 0x7f090005
 int id etChangeTitle 0x7f090004
 int id etDescription 0x7f090003
 int id etTitle 0x7f090002
+int id export_xml 0x7f09001a
 int id imageViewIcon 0x7f090013
 int id linearLayoutButtons 0x7f090010
 int id linearLayoutFiles 0x7f09000f
@@ -79,6 +80,7 @@ int string daidalos_yes 0x7f04000b
 int string deleteCounter 0x7f04001f
 int string description 0x7f040017
 int string exportCSV 0x7f04002b
+int string exportXML 0x7f04002d
 int string give_new_description 0x7f040025
 int string give_new_title 0x7f040026
 int string hello_world 0x7f040013

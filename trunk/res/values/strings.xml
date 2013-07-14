@@ -29,4 +29,5 @@
 	<string name="Date">Date</string>
 	<string name="exportCSV">Exporter historique</string>
 	<string name="create_file">Création du fichier %s</string>
+	<string name="exportXML">Exporter</string>
 </resources>

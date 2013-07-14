@@ -32,10 +32,12 @@ public class ExportDBCounter {
 		private static final String COUNTER ="Counter";
 		private static final String TITLE="Title";
 		private static final String DESCRIPTION="Description";
+		private static final String COUNT="Count";
+		private static final String INCREMENTS ="Increments";
 		private static final String INCREMENT ="Increment";
 		private static final String DATE = "Date";
 	}
-	private static final int XML =1;
+	public static final int XML =1;
 	
 	public ExportDBCounter(Activity mainActivity,String FilePath)
 	{
@@ -60,7 +62,7 @@ public class ExportDBCounter {
 		OutputStreamWriter out_writer = null;
 		Time time = new Time();
 		time.setToNow();
-		out = new FileOutputStream(FilePath+"ExportCounterDroid_"+time.format("%Y:%m:%d %H:%M:%S")+".xml");
+		out = new FileOutputStream(FilePath+"/ExportCounterDroid_"+time.format("%Y%d%m _%H%M%S")+".xml");
 		out_writer = new OutputStreamWriter(out);
 		
 		
@@ -69,6 +71,9 @@ public class ExportDBCounter {
 		  case XML:
 			  out_writer.write(this.intoXML());
 		}
+		
+		out_writer.flush();
+		if(out!= null) out.close();
 	}
 	
 	
@@ -95,8 +100,7 @@ public class ExportDBCounter {
 				//add tag counter
 				xmlSerializer.startTag("",baliseXml.COUNTER);
 				//set attribute Id with the id of the counter
-				xmlSerializer.attribute("",baliseXml.ID,String.valueOf(listCounter.get(i).getId()));
-				
+				xmlSerializer.attribute("",baliseXml.ID,String.valueOf(listCounter.get(i).getId()));				
 				//add tag TITLE
 				xmlSerializer.startTag("", baliseXml.TITLE);
 				xmlSerializer.text(listCounter.get(i).getTitle());
@@ -107,12 +111,32 @@ public class ExportDBCounter {
 				xmlSerializer.text(listCounter.get(i).getDescription());
 				xmlSerializer.endTag("", baliseXml.DESCRIPTION);
 				
+				//add tag COUNT
+				xmlSerializer.startTag("", baliseXml.COUNT);
+				xmlSerializer.text(String.valueOf(listCounter.get(i).getCount()));
+				xmlSerializer.endTag("", baliseXml.COUNT);
+				
+				//add all the increment of this counter
+				xmlSerializer.startTag("", baliseXml.INCREMENTS);
+				ArrayList<Integer> listIncrement = new ArrayList<Integer>();
+				listIncrement = incrementBDD.getAllDateIncrementOfCounter(listCounter.get(i).getId());
+				for(int j = 0;j<listIncrement.size();j++)
+					{
+						//add tag increment
+						xmlSerializer.startTag("",baliseXml.INCREMENT);
+						//set attribute date
+						xmlSerializer.attribute("", baliseXml.DATE, listIncrement.get(j).toString());
+						//close tag increment
+						xmlSerializer.endTag("", baliseXml.INCREMENT);
+					}
+				//close tag increments
+				xmlSerializer.endTag("", baliseXml.INCREMENTS);
 				//close tag counter
-				xmlSerializer.endTag("",baliseXml.COUNTERS);
+				xmlSerializer.endTag("",baliseXml.COUNTER);
 			}
 		
 		//close tag : counters
-		xmlSerializer.endTag("","Counters");
+		xmlSerializer.endTag("",baliseXml.COUNTERS);
 		
 		// end DOCUMENT
 		xmlSerializer.endDocument();
