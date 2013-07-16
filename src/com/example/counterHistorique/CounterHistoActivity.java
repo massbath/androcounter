@@ -50,6 +50,7 @@ public class CounterHistoActivity extends Activity {
 	String description;
 	TableRow tableRow;
 	String path;
+	String final_path;
 	
 	CounterBDD counterBDD;
 	
@@ -111,9 +112,8 @@ public class CounterHistoActivity extends Activity {
 						@Override
 						public void onFileSelected(Dialog source, File file) {
 							// TODO Auto-generated method stub
-							source.hide();
-				             Toast toast = Toast.makeText(source.getContext(), "File selected: " + file.getAbsolutePath(), Toast.LENGTH_LONG);
-				             toast.show();
+							 source.hide();
+				            
 				             path = file.getAbsolutePath();
 				             new createCsvAsync().execute(listDateIncrement);
 				             source.cancel();
@@ -124,8 +124,7 @@ public class CounterHistoActivity extends Activity {
 								String name) {
 							// TODO Auto-generated method stub
 							 source.hide();
-				             Toast toast = Toast.makeText(source.getContext(), "File created: " + folder.getName() + "/" + name, Toast.LENGTH_LONG);
-				             toast.show();
+				             
 				             source.cancel();
 							
 						}});
@@ -230,6 +229,7 @@ public class CounterHistoActivity extends Activity {
 			// TODO Auto-generated method stub
 			Log.d("Counter counterHistoActivity", "onPostExecute build csv");
 			progressDialog.dismiss();
+			Toast.makeText(getBaseContext(), getResources().getString(R.string.create_file,final_path), Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
@@ -247,7 +247,8 @@ public class CounterHistoActivity extends Activity {
 			 OutputStreamWriter out_writer = null;
 			 try {
 				//create file 
-				out = new FileOutputStream(path+"/"+title+".csv");
+				 final_path = path+"/"+title+".csv";
+				out = new FileOutputStream(final_path);
 				out_writer = new OutputStreamWriter(out);
 				//write title
 				String ligne = "Titre ;"+title+";\n";

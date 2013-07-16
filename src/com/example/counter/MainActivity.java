@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -25,11 +26,14 @@ import ar.com.daidalos.afiledialog.FileChooserDialog;
 import ar.com.daidalos.afiledialog.FileChooserDialog.OnFileSelectedListener;
 
 import com.counterDroid.exportImportXML.ExportDBCounter;
+import com.counterDroid.exportImportXML.ExportDBCounterAsync;
+import com.counterDroid.exportImportXML.ImportDBCounterAsync;
+import com.counterDroid.exportImportXML.ImportDBCounterAsync.ImportDBCounterAsyncInterface;
 import com.example.counter.AddCounterDialog.AddCounterDialogOkListener;
 import com.example.counter.ChangeCounterDialog.ChangeCounterDialogListenerInterface;
 import com.example.counterHistorique.CounterHistoActivity;
 
-public class MainActivity extends FragmentActivity implements AddCounterDialogOkListener,ChangeCounterDialogListenerInterface, OnItemClickListener{
+public class MainActivity extends FragmentActivity implements ImportDBCounterAsyncInterface,AddCounterDialogOkListener,ChangeCounterDialogListenerInterface, OnItemClickListener{
 	
 	private final static int MENU_ADD = 1;
 	
@@ -68,6 +72,7 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		final Activity activity =  this;
 		switch(item.getItemId())
 			{
 				case(R.id.add_counter):
@@ -77,7 +82,8 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 					
 				case(R.id.export_xml):
 					Log.d("Counter", "MainActivity export xml clicked");
-					final Activity activity =  this;
+					
+					
 				
 					FileChooserDialog dialog = new FileChooserDialog(this);
 					dialog.setFolderMode(true);
@@ -86,34 +92,9 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 						@Override
 						public void onFileSelected(Dialog source,  File file) {
 							// TODO Auto-generated method stub
-							source.hide();
-				             Toast toast = Toast.makeText(source.getContext(), "File selected: " + file.getAbsolutePath(), Toast.LENGTH_LONG);
-				             toast.show();
-				             //file.getAbsolutePath();
+							 source.hide();
 				             final String path = file.getAbsolutePath();
-				        
-						
-				            new Thread(new Runnable(){
-
-									@Override
-									public void run() {
-										
-										// TODO Auto-generated method stub
-										try {
-											new ExportDBCounter(activity,path).write(ExportDBCounter.XML);
-										} catch (IllegalArgumentException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										} catch (IllegalStateException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										} catch (IOException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-									}
-									
-								}).start();
+				             new ExportDBCounterAsync(activity,activity,path).execute(ExportDBCounterAsync.XML);
 				             source.cancel();
 						}
 	
@@ -126,11 +107,41 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 							
 						}});
 					dialog.show();
-				
-				
-				
-					
 					break;
+				case(R.id.import_xml):
+					Log.d("Counter", "MainActivity import xml clicked");
+					
+					FileChooserDialog dialogFile = new FileChooserDialog(this);
+					//set to select files
+					dialogFile.setFolderMode(false);
+					//filter for .xml files
+					dialogFile.setFilter(".*xml");
+					//the user can create file
+					dialogFile.setCanCreateFiles(false);
+					dialogFile.addListener(new OnFileSelectedListener(){
+
+						@Override
+						public void onFileSelected(Dialog source, File file) {
+							// TODO Auto-generated method stub
+							 source.hide();				           
+				             //file.getAbsolutePath();
+				             final String path = file.getAbsolutePath();
+				             new ImportDBCounterAsync(activity,activity,path).execute();
+				             source.cancel();				             
+				             
+						}
+
+						@Override
+						public void onFileSelected(Dialog source, File folder,
+								String name) {
+							
+						}
+						
+					});
+					
+					dialogFile.show();
+					break;
+					
 			}
 		
 		// TODO Auto-generated method stub
@@ -320,6 +331,13 @@ public class MainActivity extends FragmentActivity implements AddCounterDialogOk
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		updateListViewCounter();
+	}
+
+	//when the import from xml is finished
+	@Override
+	public void updateListAfterImport() {
+		// TODO Auto-generated method stub
 		updateListViewCounter();
 	}
 	

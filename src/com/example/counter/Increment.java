@@ -27,7 +27,13 @@ public class Increment {
 		this.date_time = System.currentTimeMillis()/1000;
 	}
 	
-
+    public Increment(long id_counter,String date)
+    {
+    	
+    	this.id_counter = id_counter;
+    	this.date_time = Long.parseLong(date);
+    }
+	
 	public long getId() {
 		return id;
 	}
