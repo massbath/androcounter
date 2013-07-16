@@ -1,5 +1,6 @@
 package com.counterDroid.exportImportXML;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -10,12 +11,15 @@ import java.util.ArrayList;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.text.format.Time;
 import android.util.Xml;
 
 import com.example.counter.Counter;
 import com.example.counter.CounterBDD;
 import com.example.counter.IncrementBDD;
+import com.example.counter.R;
 
 public class ExportDBCounter {
 
@@ -58,6 +62,8 @@ public class ExportDBCounter {
 	//to write just choose a format for the output file
 	public void write(int mode) throws IllegalArgumentException, IllegalStateException, IOException
 	{
+		
+	
 		FileOutputStream out= null;
 		OutputStreamWriter out_writer = null;
 		Time time = new Time();
@@ -151,4 +157,9 @@ public class ExportDBCounter {
 		
 	}
 	
+	
+		
+		
 }
+	
+

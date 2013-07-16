@@ -12,6 +12,7 @@
 	    android:title="@string/add_counter"/>
 	
 	<item android:id="@+id/export_xml" android:title="@string/exportXML" android:showAsAction="ifRoom"></item>
+	<item android:id="@+id/import_xml" android:title="@string/import_xml" android:showAsAction="ifRoom"></item>
 	
 	
 	

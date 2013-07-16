@@ -24,10 +24,14 @@
 	<string name="give_new_description">Nouvelle description :</string>
 	<string name="give_new_title">Nouveau Titre :</string>
 	<string name="load">Chargement</string>
+	<string name="load_counter">Chargement des compteurs</string>
 	<string name="wait_please">Veuillez patienter</string>
 	<string name="Counter">Compteur</string>
 	<string name="Date">Date</string>
 	<string name="exportCSV">Exporter historique</string>
 	<string name="create_file">Création du fichier %s</string>
 	<string name="exportXML">Exporter</string>
+	<string name="exportXMLInProgress">Exportation en cours</string>
+	<string name="import_xml">Importer</string>
+	<string name="importXMLInProgress">Importation en cours</string>
 </resources>
