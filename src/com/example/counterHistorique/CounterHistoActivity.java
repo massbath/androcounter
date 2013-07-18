@@ -105,6 +105,8 @@ public class CounterHistoActivity extends Activity {
 				case(R.id.action_export_csv):
 				
 					Log.d("Counter", "Export csv");
+					Toast.makeText(this, R.string.choose_directory, Toast.LENGTH_SHORT).show();
+				
 					FileChooserDialog dialog = new FileChooserDialog(this);
 					dialog.setFolderMode(true);
 					dialog.addListener(new OnFileSelectedListener(){

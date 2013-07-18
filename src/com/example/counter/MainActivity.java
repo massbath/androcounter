@@ -83,7 +83,7 @@ public class MainActivity extends FragmentActivity implements ImportDBCounterAsy
 				case(R.id.export_xml):
 					Log.d("Counter", "MainActivity export xml clicked");
 					
-					
+					Toast.makeText(this, R.string.choose_directory, Toast.LENGTH_SHORT).show();
 				
 					FileChooserDialog dialog = new FileChooserDialog(this);
 					dialog.setFolderMode(true);
@@ -111,6 +111,7 @@ public class MainActivity extends FragmentActivity implements ImportDBCounterAsy
 				case(R.id.import_xml):
 					Log.d("Counter", "MainActivity import xml clicked");
 					
+					Toast.makeText(this,R.string.choose_file, Toast.LENGTH_SHORT).show();
 					FileChooserDialog dialogFile = new FileChooserDialog(this);
 					//set to select files
 					dialogFile.setFolderMode(false);
@@ -123,8 +124,7 @@ public class MainActivity extends FragmentActivity implements ImportDBCounterAsy
 						@Override
 						public void onFileSelected(Dialog source, File file) {
 							// TODO Auto-generated method stub
-							 source.hide();				           
-				             //file.getAbsolutePath();
+							 source.hide();			
 				             final String path = file.getAbsolutePath();
 				             new ImportDBCounterAsync(activity,activity,path).execute();
 				             source.cancel();				             
