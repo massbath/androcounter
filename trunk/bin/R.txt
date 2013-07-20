@@ -7,9 +7,11 @@ int drawable document 0x7f020001
 int drawable document_gray 0x7f020002
 int drawable folder 0x7f020003
 int drawable ic_launcher 0x7f020004
-int drawable no 0x7f020005
-int drawable table_border 0x7f020006
-int drawable tick 0x7f020007
+int drawable menu_export 0x7f020005
+int drawable menu_import 0x7f020006
+int drawable no 0x7f020007
+int drawable table_border 0x7f020008
+int drawable tick 0x7f020009
 int id ScrollView01 0x7f090015
 int id action_export_csv 0x7f090017
 int id action_settings 0x7f090018
@@ -58,7 +60,10 @@ int string app_name 0x7f040011
 int string cancel 0x7f040019
 int string change 0x7f04001d
 int string change_counter 0x7f040015
+int string choose_directory 0x7f040033
+int string choose_file 0x7f040032
 int string close 0x7f040024
+int string confirmDeleteCounter 0x7f040035
 int string count_negatif 0x7f04001c
 int string create_file 0x7f04002d
 int string daidalos_accept 0x7f040008
@@ -97,6 +102,7 @@ int string of_title 0x7f040021
 int string title 0x7f040016
 int string title_already_used 0x7f04001e
 int string wait_please 0x7f040029
+int string warning_delete 0x7f040034
 int style AppBaseTheme 0x7f070000
 int style AppTheme 0x7f070001
 int style defaultTextView 0x7f070002

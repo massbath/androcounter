@@ -20,7 +20,7 @@ public class DBBaseAdapter {
 		
     	
     	protected static final int VERSION_BDD =1;
-    	protected static final String NOM_BDD = "counter.bd";
+    	protected static final String NOM_BDD = "counter.db";
 		//table counter
     	protected static final String TABLE_COUNTER = "table_counter";
     	protected static final String COL_ID = "ID";
