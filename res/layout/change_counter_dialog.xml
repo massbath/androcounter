@@ -74,15 +74,20 @@
             android:id="@+id/deleteCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_delete" 
+            android:src="@android:drawable/ic_delete" 
             android:background="@null"/>
+
+        
 
         <ImageButton
             android:id="@+id/btnShowGraph"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_gallery" 
-            android:background="@null"/>
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@android:drawable/ic_input_get" />
+
+    
 
     </LinearLayout>
 

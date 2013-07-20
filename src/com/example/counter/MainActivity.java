@@ -244,6 +244,7 @@ public class MainActivity extends FragmentActivity implements ImportDBCounterAsy
 		// TODO Auto-generated method stub
 		//counterBDD.open();
 		boolean res = counterBDD.isFreeTitle(id, title);
+		
 		//counterBDD.close();
 		return res;
 	}

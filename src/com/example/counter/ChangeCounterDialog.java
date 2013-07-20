@@ -1,5 +1,6 @@
 package com.example.counter;
 
+import android.R.drawable;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -90,9 +91,14 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 					Log.d("Counter ChangeCounterDialog onFocusChange","res = "+res);
 					
 					//if there is other counter with the title
-					if(!res) Toast.makeText(getActivity(), R.string.title_already_used, Toast.LENGTH_SHORT).show();
-						
-					else title.setText(value);
+					if(!res) Toast.makeText(getActivity(), R.string.title_already_used, Toast.LENGTH_SHORT).show();	
+					else {
+							title.setText(value);
+							String newDescription = (description.getText().toString().equals(""))?args.getString("DESCRIPTION"):description.getText().toString();
+							
+							Counter counter = new Counter(args.getLong("ID"),value,newDescription,Integer.valueOf(count.getText().toString()));     
+							mainActivity.onFinishChangeCounterDialog(counter);
+						}
 				  }
 				});
 
@@ -130,6 +136,10 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 				  String value = input.getText().toString();
 				  // Do something with value!
 				  description.setText(value);
+				  String newTitle = (title.getText().toString().equals(""))?args.getString("TITLE"):title.getText().toString();
+				  Counter counter = new Counter(args.getLong("ID"),newTitle,value.toString(),Integer.valueOf(count.getText().toString()));     
+				  ChangeCounterDialogListenerInterface mainActivity = (ChangeCounterDialogListenerInterface) getActivity();
+				  mainActivity.onFinishChangeCounterDialog(counter);
 				  }
 				});
 
@@ -199,7 +209,7 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 
 	@Override
 	public void onClick(View v) {
-		Bundle args = getArguments();
+		final Bundle args = getArguments();
 		
 		// TODO Auto-generated method stub
 		int valueCount = Integer.valueOf(count.getText().toString());
@@ -232,12 +242,37 @@ public class ChangeCounterDialog extends DialogFragment implements OnClickListen
 				}
 			case R.id.deleteCounter:
 				{
-					Counter counter = new  Counter( args.getLong("ID"),args.getString("TITLE"),args.getString("DESCRIPTION"),valueCount);
+					AlertDialog.Builder alertDelete = new AlertDialog.Builder(getActivity());
+					alertDelete.setIcon(drawable.ic_dialog_alert);
+					alertDelete.setTitle(R.string.warning_delete);
+					alertDelete.setMessage(R.string.confirmDeleteCounter);
+					alertDelete.setPositiveButton("Valider",new OnClickListener(){
+
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							// TODO Auto-generated method stub
+							Counter counter = new  Counter( args.getLong("ID"),args.getString("TITLE"),args.getString("DESCRIPTION"),Integer.valueOf(count.getText().toString()));
+							Log.d("Counter ChangeCounterDialog onClick","delete"+args.toString());
+							//Toast.makeText(getActivity(),"delete",Toast.LENGTH_SHORT).show();
+							ChangeCounterDialogListenerInterface mainActivity  =(ChangeCounterDialogListenerInterface)getActivity();
+							mainActivity.removeCounter(counter);
+							ChangeCounterDialog.this.dismiss();
+							
+						}});
+					alertDelete.setNegativeButton("Annuler", new OnClickListener(){
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							
+						}});
+					alertDelete.show();
+					/*Counter counter = new  Counter( args.getLong("ID"),args.getString("TITLE"),args.getString("DESCRIPTION"),valueCount);
 					Log.d("Counter ChangeCounterDialog onClick","delete"+args.toString());
 					//Toast.makeText(getActivity(),"delete",Toast.LENGTH_SHORT).show();
 					ChangeCounterDialogListenerInterface mainActivity  =(ChangeCounterDialogListenerInterface)getActivity();
 					mainActivity.removeCounter(counter);
-					this.dismiss();
+					this.dismiss();*/
 					break;
 				}
 			case R.id.btnShowGraph:

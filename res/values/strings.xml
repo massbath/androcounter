@@ -35,4 +35,6 @@
 	<string name="importXMLInProgress">Importation en cours</string>
 	<string name="choose_file">Veuillez choisir le fichier pour l\'importation (ExportCounterDroid_AAAADDMM_HHmmss.xml) </string>
 	<string name="choose_directory">Veuillez choisir le répertoire pour l\'exportation </string>
+	<string name="warning_delete">Suppression d\'un compteur</string>
+	<string name="confirmDeleteCounter">Voulez-vous vraiment supprimer ce compteur ?</string>
 </resources>
