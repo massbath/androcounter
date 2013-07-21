@@ -15,13 +15,13 @@
 	    android:id="@+id/export_xml" 
 	    android:title="@string/exportXML" 
 	    android:showAsAction="ifRoom"
-	    android:icon="@drawable/menu_import">	    
+	     android:icon="@android:drawable/ic_menu_save">	    
 	</item>
 	
 	<item android:id="@+id/import_xml" 
 	    android:title="@string/import_xml" 
 	    android:showAsAction="ifRoom"
-	    android:icon="@drawable/menu_export">	    
+	     android:icon="@drawable/menu_export">	    
 	</item>
 	
 	
