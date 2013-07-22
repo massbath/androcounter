@@ -7,11 +7,12 @@ int drawable document 0x7f020001
 int drawable document_gray 0x7f020002
 int drawable folder 0x7f020003
 int drawable ic_launcher 0x7f020004
-int drawable menu_export 0x7f020005
-int drawable menu_import 0x7f020006
-int drawable no 0x7f020007
-int drawable table_border 0x7f020008
-int drawable tick 0x7f020009
+int drawable ic_menu_archive 0x7f020005
+int drawable menu_export 0x7f020006
+int drawable menu_import 0x7f020007
+int drawable no 0x7f020008
+int drawable table_border 0x7f020009
+int drawable tick 0x7f02000a
 int id ScrollView01 0x7f090015
 int id action_export_csv 0x7f090017
 int id action_settings 0x7f090018
