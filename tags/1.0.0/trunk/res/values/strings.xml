@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CounterDroid</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="add_counter">Ajouter compteur</string>
+     <string name="change_counter">Modifier compteur</string>
+    <string name="title">Titre </string>
+    <string name="description">Description </string>
+    <string name="add">Ajouter</string>
+    <string name="cancel">Annuler</string>
+    <string name="add_cancel_double">Un compteur existe déja avec ce titre</string>
+    <string name="not_all_inputs">Tous les champs ne sont pas remplis</string>
+	<string name="count_negatif">Le compteur ne peut pas être négatif !</string>
+	<string name="change">Valider les modification</string>
+	<string name="title_already_used">Titre déja utilisé</string>
+	<string name="deleteCounter">Supprimer le compteur</string>
+	<string name="accept_change">Valider le changement %s ?</string>
+	<string name="of_title">du titre</string>
+	<string name="modification">Modification</string>
+	<string name="of_description">de la description</string>
+	<string name="close">Fermer</string>
+	<string name="give_new_description">Nouvelle description :</string>
+	<string name="give_new_title">Nouveau Titre :</string>
+	<string name="load">Chargement</string>
+	<string name="load_counter">Chargement des compteurs</string>
+	<string name="wait_please">Veuillez patienter</string>
+	<string name="Counter">Compteur</string>
+	<string name="Date">Date</string>
+	<string name="exportCSV">Exporter historique</string>
+	<string name="create_file">Création du fichier %s</string>
+	<string name="exportXML">Exporter</string>
+	<string name="exportXMLInProgress">Exportation en cours</string>
+	<string name="import_xml">Importer</string>
+	<string name="importXMLInProgress">Importation en cours</string>
+	<string name="choose_file">Veuillez choisir le fichier pour l\'importation (ExportCounterDroid_AAAADDMM_HHmmss.xml) </string>
+	<string name="choose_directory">Veuillez choisir le répertoire pour l\'exportation </string>
+	<string name="warning_delete">Suppression d\'un compteur</string>
+	<string name="confirmDeleteCounter">Voulez-vous vraiment supprimer ce compteur ?</string>
+</resources>
