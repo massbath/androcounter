@@ -116,7 +116,7 @@ public class MainActivity extends FragmentActivity implements ImportDBCounterAsy
 					//set to select files
 					dialogFile.setFolderMode(false);
 					//filter for .xml files
-					dialogFile.setFilter(".*xml");
+					dialogFile.setFilter("^ExportCounterDroid_.*.xml$");
 					//the user can create file
 					dialogFile.setCanCreateFiles(false);
 					dialogFile.addListener(new OnFileSelectedListener(){
